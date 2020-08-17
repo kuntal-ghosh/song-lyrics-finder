@@ -4,10 +4,9 @@ const searchBtn = document.getElementById("search");
 const searchResult = document.getElementById("search-result");
 const lyricsResult = document.getElementById("lyrics-result");
 const div = document.createElement("div");
-// div.innerHTML = "hello";
 
+// search button click events
 searchBtn.addEventListener("click", () => {
-  // console.log(songName.value);
   searchResult.innerHTML = "";
   getSongBySongName(songName.value).then((songs) => {
     console.log(songs);
@@ -21,14 +20,12 @@ searchBtn.addEventListener("click", () => {
     for (let i = 0; i < displayedSongNumber; i++) {
       console.log(songs[i]);
       songObject = songs[i];
-      //   console.log(songObject);
       const {
         id,
         title,
         artist: { name: artistName },
       } = songObject;
-      //   console.log(songs[i]);
-      //   div.innerHTML = songs[i].id;
+
       searchResult.innerHTML += `<div class="single-result row align-items-center my-3 p-3">
         <div class="col-md-9">
           <h3 class="lyrics-name">${title}</h3>
@@ -43,13 +40,24 @@ searchBtn.addEventListener("click", () => {
   songName.value = "";
 });
 
+/**
+ *  this function fetch songs from api according to song name
+ *
+ * @param {*string} songName
+ * @returns list of song objects as a promise
+ */
 function getSongBySongName(songName) {
   return fetch(`https://api.lyrics.ovh/suggest/${songName}`)
     .then((response) => response.json())
     .then((songs) => songs.data);
-  //   return songs;
 }
 
+/**
+ *  this is a function that inputs lyrics in the lyrics-result section
+ *
+ * @param {*string} songName
+ * @returns lyrics of the song
+ */
 function getLyrics(title, artistName) {
   if (title && artistName) {
     fetch(`https://api.lyrics.ovh/v1/${artistName}/${title}`)
