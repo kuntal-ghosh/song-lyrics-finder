@@ -9,32 +9,39 @@ const div = document.createElement("div");
 searchBtn.addEventListener("click", () => {
   searchResult.innerHTML = "";
   getSongBySongName(songName.value).then((songs) => {
-    console.log(songs);
-    let displayedSongNumber = 0;
-    if (songs.length < 10) {
-      displayedSongNumber = songs.length;
+    if (songs.length !== 0) {
+      let displayedSongNumber = 0;
+      if (songs.length < 10) {
+        displayedSongNumber = songs.length;
+      } else {
+        displayedSongNumber = 10;
+      }
+
+      for (let i = 0; i < displayedSongNumber; i++) {
+        songObject = songs[i];
+        const {
+          id,
+          title,
+          artist: { name: artistName },
+        } = songObject;
+
+        searchResult.innerHTML += `<div class="single-result row align-items-center my-3 p-3">
+          <div class="col-md-9">
+            <h3 class="lyrics-name">${title}</h3>
+            <p class="author lead">Album by <span>${artistName}</span></p>
+          </div>
+          <div class="col-md-3 text-md-right text-center">
+            <button class="btn btn-success" onclick="getLyrics('${title}', '${artistName}');">Get Lyrics</button>
+          </div>
+        </div>`;
+      }
     } else {
-      displayedSongNumber = 10;
-    }
-
-    for (let i = 0; i < displayedSongNumber; i++) {
-      console.log(songs[i]);
-      songObject = songs[i];
-      const {
-        id,
-        title,
-        artist: { name: artistName },
-      } = songObject;
-
-      searchResult.innerHTML += `<div class="single-result row align-items-center my-3 p-3">
-        <div class="col-md-9">
-          <h3 class="lyrics-name">${title}</h3>
-          <p class="author lead">Album by <span>${artistName}</span></p>
-        </div>
-        <div class="col-md-3 text-md-right text-center">
-          <button class="btn btn-success" onclick="getLyrics('${title}', '${artistName}');">Get Lyrics</button>
-        </div>
-      </div>`;
+      searchResult.innerHTML = `<div class="single-result row align-items-center my-3 p-3 text-center justify-content-center">
+      <div class="col-md-9">
+        <h3 class="lyrics-name ">Please provide valid song name</h3>
+      </div>
+    </div>`;
+    lyricsResult.innerHTML="";
     }
   });
   songName.value = "";
