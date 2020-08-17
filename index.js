@@ -41,7 +41,7 @@ searchBtn.addEventListener("click", () => {
         <h3 class="lyrics-name ">Please provide valid song name</h3>
       </div>
     </div>`;
-    lyricsResult.innerHTML="";
+      lyricsResult.innerHTML = "";
     }
   });
   songName.value = "";
